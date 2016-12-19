@@ -126,6 +126,27 @@ class Elemental():
 			self.screen.blit(self.api, (400,50))
 		elif flag2 == 3:
 			self.screen.blit(self.air, (400,50))
+		self.screen.blit(self.panel, (140, 285))
+
+		if flag1 == 1 and flag2 == 1:
+			label5 = pygame.font.SysFont("monospace", 40).render("KALIAN SERI", 1, (255, 255, 255))
+		elif flag1 == 1 and flag2 == 2:
+			label5 = pygame.font.SysFont("monospace", 40).render("PLAYER 2 MENANG", 1, (255, 255, 255))
+		elif flag1 == 1 and flag2 == 3:
+			label5 = pygame.font.SysFont("monospace", 40).render("PLAYER 1 MENANG", 1, (255, 255, 255))
+		elif flag1 == 2 and flag2 == 1:
+			label5 = pygame.font.SysFont("monospace", 40).render("PLAYER 1 MENANG", 1, (255, 255, 255))
+		elif flag1 == 2 and flag2 == 2:
+			label5 = pygame.font.SysFont("monospace", 40).render("KALIAN SERI", 1, (255, 255, 255))
+		elif flag1 == 2 and flag2 == 3:
+			label5 = pygame.font.SysFont("monospace", 40).render("PLAYER 2 MENANG", 1, (255, 255, 255))
+		elif flag1 == 3 and flag2 == 1:
+			label5 = pygame.font.SysFont("monospace", 40).render("PLAYER 2 MENANG", 1, (255, 255, 255))
+		elif flag1 == 3 and flag2 == 2:
+			label5 = pygame.font.SysFont("monospace", 40).render("PLAYER 1 MENANG", 1, (255, 255, 255))
+		elif flag1 == 3 and flag2 == 3:
+			label5 = pygame.font.SysFont("monospace", 40).render("KALIAN SERI", 1, (255, 255, 255))
+		self.screen.blit(label5, (150, 290))
 		pygame.display.flip()
 
 element = Elemental()
