@@ -28,20 +28,33 @@ class Elemental():
 		self.initGraph()
 
 		#membuat tampilan permainan
-		self.drawBoard()
+		# self.drawBoard()
 
 		self.drawBoard2()
 
 		#running program
 		flag1 = 0
-		flag2 = 0
-		x=0
 		while self.running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit()
-				elif event.type == pygame.MOUSEBUTTONDOWN:
-					print "koordinat = (%d, %d)"%event.pos
+				# elif event.type == pygame.MOUSEBUTTONDOWN:
+				# 	print "koordinat = (%d, %d)"%event.pos
+				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] < 228 and event.pos[1] < 275 and event.pos[1] > 50:
+					print "daun"
+					self.screen.fill((255, 255, 255))
+					flag1 = 1
+					self.drawBoard3(flag1)
+				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 227 and event.pos[0] < 463 and event.pos[1] < 275 and event.pos[1] > 50:
+					print "api"
+					self.screen.fill((255, 255, 255))
+					flag1 = 2
+					self.drawBoard3(flag1)
+				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 462 and event.pos[1] < 275 and event.pos[1] > 50:
+					print "air"
+					self.screen.fill((255, 255, 255))
+					flag1 = 3
+					self.drawBoard3(flag1)
 
 	def initGraph(self):
 		self.daun = pygame.image.load("daun.png").convert_alpha()
@@ -51,19 +64,19 @@ class Elemental():
 		self.red = pygame.image.load("redindicator.png").convert_alpha()		
 		self.green = pygame.image.load("greenindicator.png").convert_alpha()
 
-	def drawBoard(self):
-		myfont = pygame.font.SysFont("monospace", 40)
-		label = myfont.render("Menunggu musuh . . .", 1, (0,0,0))
-		self.screen.blit(label, (0, 0))
+	# def drawBoard(self):
+	# 	myfont = pygame.font.SysFont("monospace", 40)
+	# 	label = myfont.render("Menunggu musuh . . .", 1, (0,0,0))
+	# 	self.screen.blit(label, (0, 0))
 
-		self.screen.blit(self.daun, (0,50))
-		self.screen.blit(self.api, (230,50))
-		self.screen.blit(self.air, (465,50))
-		#self.screen.blit(self.panel, (140, 285))
-		self.screen.blit(self.red, (305, 300))
-		pygame.display.flip()
-		sleep(3)
-		self.screen.fill((255,255,255))
+	# 	self.screen.blit(self.daun, (0,50))
+	# 	self.screen.blit(self.api, (230,50))
+	# 	self.screen.blit(self.air, (465,50))
+	# 	#self.screen.blit(self.panel, (140, 285))
+	# 	self.screen.blit(self.red, (305, 300))
+	# 	pygame.display.flip()
+	# 	sleep(3)
+	# 	self.screen.fill((255,255,255))
 
 	def drawBoard2(self):
 		myfont = pygame.font.SysFont("monospace", 40)
@@ -75,6 +88,23 @@ class Elemental():
 		self.screen.blit(self.air, (465,50))
 		#self.screen.blit(self.panel, (140, 285))
 		self.screen.blit(self.green, (305, 300))
+		pygame.display.flip()
+
+	def drawBoard3(self, flag1):
+		myfont = pygame.font.SysFont("monospace", 40)
+		label = myfont.render("Elemen anda: ", 1, (0,0,0))
+		label2 = myfont.render("Elemen musuh: ", 1, (0,0,0))
+		label3 = pygame.font.SysFont("monospace", 50).render("VS", 1, (0,0,0))
+		self.screen.blit(label, (0, 0))
+		self.screen.blit(label2, (345, 0))
+		self.screen.blit(label3, (300, 150))
+
+		if flag1 == 1:
+			self.screen.blit(self.daun, (40,50))
+		elif flag1 == 2:
+			self.screen.blit(self.api, (40,50))
+		elif flag1 == 3:
+			self.screen.blit(self.air, (40,50))
 		pygame.display.flip()
 
 element = Elemental()
