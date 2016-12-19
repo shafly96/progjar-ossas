@@ -34,6 +34,8 @@ class Elemental():
 
 		#running program
 		flag1 = 0
+		flag2 = 0
+		x=0
 		while self.running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -42,19 +44,31 @@ class Elemental():
 				# 	print "koordinat = (%d, %d)"%event.pos
 				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] < 228 and event.pos[1] < 275 and event.pos[1] > 50:
 					print "daun"
-					self.screen.fill((255, 255, 255))
-					flag1 = 1
-					self.drawBoard3(flag1)
+					if x == 0:
+						flag1 = 1
+					elif x == 1:
+						flag2 = 1
+						self.screen.fill((255, 255, 255))
+						self.drawBoard3(flag1, flag2)
+					x+=1
 				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 227 and event.pos[0] < 463 and event.pos[1] < 275 and event.pos[1] > 50:
 					print "api"
-					self.screen.fill((255, 255, 255))
-					flag1 = 2
-					self.drawBoard3(flag1)
+					if x == 0:
+						flag1 = 2
+					elif x == 1:
+						flag2 = 2
+						self.screen.fill((255, 255, 255))
+						self.drawBoard3(flag1, flag2)
+					x+=1
 				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 462 and event.pos[1] < 275 and event.pos[1] > 50:
 					print "air"
-					self.screen.fill((255, 255, 255))
-					flag1 = 3
-					self.drawBoard3(flag1)
+					if x == 0:
+						flag1 = 3
+					elif x == 1:
+						flag2 = 3
+						self.screen.fill((255, 255, 255))
+						self.drawBoard3(flag1, flag2)
+					x+=1
 
 	def initGraph(self):
 		self.daun = pygame.image.load("daun.png").convert_alpha()
@@ -90,7 +104,7 @@ class Elemental():
 		self.screen.blit(self.green, (305, 300))
 		pygame.display.flip()
 
-	def drawBoard3(self, flag1):
+	def drawBoard3(self, flag1, flag2):
 		myfont = pygame.font.SysFont("monospace", 40)
 		label = myfont.render("Elemen anda: ", 1, (0,0,0))
 		label2 = myfont.render("Elemen musuh: ", 1, (0,0,0))
@@ -105,6 +119,13 @@ class Elemental():
 			self.screen.blit(self.api, (40,50))
 		elif flag1 == 3:
 			self.screen.blit(self.air, (40,50))
+
+		if flag2 == 1:
+			self.screen.blit(self.daun, (400,50))
+		elif flag2 == 2:
+			self.screen.blit(self.api, (400,50))
+		elif flag2 == 3:
+			self.screen.blit(self.air, (400,50))
 		pygame.display.flip()
 
 element = Elemental()
