@@ -40,41 +40,8 @@ class Elemental():
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit()
-				elif pygame.key.get_pressed()[pygame.K_SPACE]:
-						print "space"
-				elif pygame.key.get_pressed()[pygame.K_LEFT]:
-						print "left"
-				elif pygame.key.get_pressed()[pygame.K_RIGHT]:
-						print "right"	
-				#elif event.type == pygame.MOUSEBUTTONDOWN:
-				#	print "coord = (%d, %d)"%event.pos
-				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] < 228 and event.pos[1] < 275 and event.pos[1] > 50:
-					print "daun"
-					if x == 0:
-						flag1 = 1
-					elif x == 1:
-						flag2 = 1
-						self.screen.fill((255, 255, 255))
-						self.drawBoard3(flag1, flag2)
-					x+=1
-				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 227 and event.pos[0] < 463 and event.pos[1] < 275 and event.pos[1] > 50:
-					print "api"
-					if x == 0:
-						flag1 = 2
-					elif x == 1:
-						flag2 = 2
-						self.screen.fill((255, 255, 255))
-						self.drawBoard3(flag1, flag2)
-					x+=1
-				elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 462 and event.pos[1] < 275 and event.pos[1] > 50:
-					print "air"
-					if x == 0:
-						flag1 = 3
-					elif x == 1:
-						flag2 = 3
-						self.screen.fill((255, 255, 255))
-						self.drawBoard3(flag1, flag2)
-					x+=1
+				elif event.type == pygame.MOUSEBUTTONDOWN:
+					print "koordinat = (%d, %d)"%event.pos
 
 	def initGraph(self):
 		self.daun = pygame.image.load("daun.png").convert_alpha()

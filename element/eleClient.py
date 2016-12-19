@@ -42,7 +42,7 @@ class Elemental():
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					exit()
-
+				
 	def tunggu(self):
 		pygame.display.flip() 
 
