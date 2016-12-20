@@ -57,7 +57,6 @@ try:
             ftp.storlines('STOR '+ input_message[7:], file)
             print 'Berhasil unggah'
 
-
 except Exception, e:
     print "username atau password salah"
     sys.exit(1)
