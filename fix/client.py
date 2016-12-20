@@ -129,8 +129,10 @@ class Elemental(ConnectionListener):
         self.drawBoard3(self.flag1, self.flag2)
         while 1:
             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.running = False
+                if event.type == pygame.QUIT:
+                    exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    exit()
 
     def initGraph(self):
         self.daun = pygame.image.load("daun.png").convert_alpha()
