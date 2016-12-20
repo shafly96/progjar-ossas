@@ -1,5 +1,5 @@
 from PodSixNet.Connection import ConnectionListener, connection
-from threading import Thread
+from thread import *
 import pygame
 from time import sleep, time
 
@@ -9,7 +9,35 @@ class Elemental(ConnectionListener):
         self.gameid = None
         self.running = False
         self.Connect((host, port))
-        self.Load1()
+        self.belumMilih = True
+        print 'masuk init'
+        t = start_new_thread(self.Load1, ())
+        print 'thread started'
+
+    def Network_startgame(self, data):
+        self.playerid = data["player"]
+        self.running = True
+        self.gameid = data["gameid"]
+        connection.Send({'action': 'pesan', 'pesan': 'startgame'})
+
+    def Network_connected(self, data):
+        print "Berhasil terhubung ke server"
+
+    def Network_pilih(self, data):
+        self.belumMilih = False
+        if self.gameid == data['gameid']:
+            self.flag2 = data['flag']
+
+    def Network_error(self, data):
+        print 'error:', data['error']
+        connection.Close()
+
+    def Network_close(self, data):
+        exit()
+
+    def Network_disconnected(self, data):
+        print 'Server disconnected'
+        exit()
 
     def Loop(self):
         connection.Pump()
@@ -42,29 +70,18 @@ class Elemental(ConnectionListener):
 
         # membuat tampilan permainan
         if not self.running:
-            thread = Thread(target=self.drawBoard())
-            thread.start()
+            # thread = Thread(target=self.drawBoard())
+            # thread.start()
+            self.drawBoard()
 
         # untuk mengecek sudahkah ada musuh yang masuk
         while not self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit()
-            connection.Pump()
-            self.Pump()
-            # connection.Send({'action': 'pesan', 'pesan': 'pump it'})
             sleep(0.01)
-        if self.running:
-            connection.Pump()
-            self.Pump()
         # print 'mau load 2 neh'
         self.Load2()
-
-    def Network_startgame(self, data):
-        self.playerid = data["player"]
-        self.running = True
-        self.gameid = data["gameid"]
-        connection.Send({'action': 'pesan', 'pesan': 'startgame'})
 
     def Load2(self):
         self.drawBoard2()
@@ -85,7 +102,6 @@ class Elemental(ConnectionListener):
                     connection.Send(
                         {"action": "pilih", "gameid": self.gameid, "flag": self.flag1, "player": self.playerid}
                     )
-                    self.Loop()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 227 and event.pos[0] < 463 and \
                                 event.pos[
                                     1] < 275 and event.pos[1] > 50:
@@ -94,7 +110,6 @@ class Elemental(ConnectionListener):
                     connection.Send(
                         {"action": "pilih", "gameid": self.gameid, "flag": self.flag1, "player": self.playerid}
                     )
-                    self.Loop()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.pos[0] > 462 and event.pos[1] < 275 and \
                                 event.pos[
                                     1] > 50:
@@ -103,35 +118,19 @@ class Elemental(ConnectionListener):
                     connection.Send(
                         {"action": "pilih", "gameid": self.gameid, "flag": self.flag1, "player": self.playerid}
                     )
-                    self.Loop()
             # print 'flag 1 = ', self.flag1
             # print 'flag 2 = ', self.flag2
-            self.Loop()
             if (self.flag1 != None and self.flag2 != None):
                 self.Load3()
-
-    def Network_pilih(self, data):
-        if self.gameid == data['gameid']:
-            self.flag2 = data['flag']
 
     def Load3(self):
         # print 'flag 2 adalah ', self.flag2
         self.screen.fill((255, 255, 255))
         self.drawBoard3(self.flag1, self.flag2)
-
-    def Network_connected(self, data):
-        print "Berhasil terhubung ke server"
-
-    def Network_error(self, data):
-        print 'error:', data['error'][1]
-        connection.Close()
-
-    def Network_close(self, data):
-        exit()
-
-    def Network_disconnected(self, data):
-        print 'Server disconnected'
-        exit()
+        while 1:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.running = False
 
     def initGraph(self):
         self.daun = pygame.image.load("daun.png").convert_alpha()
@@ -212,7 +211,8 @@ class Elemental(ConnectionListener):
         self.screen.blit(label5, (150, 290))
         pygame.display.flip()
 
-host, port = "localhost", 8000
+
+host, port = "10.151.62.99", 8000
 element = Elemental(host, int(port))
 while 1:
     element.Loop()

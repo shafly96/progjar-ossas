@@ -30,7 +30,9 @@ class MyServer(PodSixNet.Server.Server):
     channelClass = ClientChannel
 
     def Connected(self, channel, addr):
-        print 'koneksi baru: ', channel
+        print 'koneksi baru: '
+        print 'channel = ', channel
+        print 'addr = ', addr
         # channel.Send({"action": "hello", "message": "hello client!"})
         if self.queue == None:
             self.currentIndex += 1
@@ -78,7 +80,7 @@ class Game:
             self.player1.Send({"action": "pilih", "flag": flag, "gameid": gameid})
 
 
-host, port = "localhost", 8000
+host, port = "10.151.62.99", 8000
 myserver = MyServer(localaddr=(host, int(port)))
 if myserver:
     print "Server nyala: ", host, ":", port
